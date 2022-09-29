@@ -1,11 +1,81 @@
 body{
     font-family: Arial,sans-serif;
 }
+.preloader {
+  /*фиксированное позиционирование*/
+  position: fixed;
+  /* координаты положения */
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  /* фоновый цвет элемента */
+  background: #e0e0e0;
+  /* размещаем блок над всеми элементами на странице (это значение должно быть больше, чем у любого другого позиционированного элемента на странице) */
+  z-index: 1001;
+}
 
+.preloader__row {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 70px;
+  height: 70px;
+  margin-top: -35px;
+  margin-left: -35px;
+  text-align: center;
+  animation: preloader-rotate 2s infinite linear;
+}
+
+.preloader__item {
+  position: absolute;
+  display: inline-block;
+  top: 0;
+  background-color: #337ab7;
+  border-radius: 100%;
+  width: 35px;
+  height: 35px;
+  animation: preloader-bounce 2s infinite ease-in-out;
+}
+
+.preloader__item:last-child {
+  top: auto;
+  bottom: 0;
+  animation-delay: -1s;
+}
+
+@keyframes preloader-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes preloader-bounce {
+
+  0%,
+  100% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+}
+
+.loaded_hiding .preloader {
+  transition: 0.3s opacity;
+  opacity: 0;
+}
+
+.loaded .preloader {
+  display: none;
+}
 nav{
     width: 100%;
     height: 60px;
     background-color: #344051;
+    position: fixed;
+    z-index: 5;
 }
 
 .logo{
@@ -14,26 +84,107 @@ nav{
     color: #fff;
     font-size: 28px;
     float: left;
+    -webkit-animation: logobegins 1.8s;
+    -o-animation: logobegins 1.8s;
+    animation: logobegins 1.8s;
 }
+
+@keyframes logobegins{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+
 
 .menu{
-    
     margin-left: 950px;
+    
 }
 
-.menu_item{
+.menu_item a{
+    display: inline-block;
     float: left;
     line-height: 60px;
     font-size: 16px;
     color: #fff;
-    margin-right: 40px;
+    margin-right: 40px;   
+    transition-duration: 0.2s;
+    transform: scale(1);
 }
+
+.menu_item{
+    opacity: 0;
+    display: inline-block;
+    -webkit-animation: from_up 0.4s ease forwards;
+    -o-animation: from_up 0.4s ease forwards;
+    animation: from_up 0.4s ease forwards;  
+    animation-delay: 2s;
+}
+
+@keyframes from_up{
+    from{
+    margin-top: -60px;
+    opacity: 0;
+    }
+    to{margin-top: 0px;
+    opacity: 1;}
+}
+
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+
+	80% {
+		transform: translateY(-5px);
+		transform: translateY(-5px);
+	}
+}
+
+/*
+.menu_item:nth-child(2){
+    animation-delay: 0.4s;
+}
+.menu_item:nth-child(3){
+    animation-delay: 0.8s;
+}
+.menu_item:nth-child(4){
+    animation-delay: 1.2s;
+}
+.menu_item:nth-child(5){
+    animation-delay: 1.6s;
+}
+.menu_item:nth-child(6){
+    animation-delay: 2s;
+}
+Все ломает, не могу сделать поочередно */
+
+.menu_item a:visited{
+    color: white;
+}
+
+.menu_item a:hover{
+   color: coral;
+    animation: bounce 0.5s;
+}
+
+.menu_item a:active{
+    transform: scale(1.1);   
+}
+
+
 /*----------------------------------------------*/
 
 
 .main{
     width: 100%;
-    height: calc(100% - 60px); /* долго не получалось, оказалось перед минусом и после пробел=)*/
+    height: 100%; 
     background: url(../img/shadow.png) 50% 103%/ auto auto no-repeat ,url(../img/boy.png) 90% 100%/ auto 85% no-repeat , url(../img/fon.jpg) center/cover no-repeat; /*спустя час додумался, что тень можно сдвинуть на 103 проц так как на сто проц встает с просветом*/
     
 }
@@ -42,7 +193,20 @@ nav{
     float: left;
     margin: 431px 0px 0px 403px;
      text-align: center;
+    -webkit-animation: titlebegins 2s;
+    -o-animation: titlebegins 2s;
+    animation: titlebegins 2s;
+    animation-delay: 1s;
+    opacity: 0;
+    animation-fill-mode: forwards;
 }
+@keyframes titlebegins{
+    from{margin-left: -850px;
+    opacity: 0;}
+    to{margin-left: 403px;
+    opacity: 1;}
+}
+
 
 .title__container h1{
     font-size: 51px;
@@ -60,6 +224,7 @@ nav{
 }
 
 .title__container input{
+    
     height: 42px;
     border: 2px solid #6d7682;
     border-radius: 8%;
@@ -69,6 +234,19 @@ nav{
     color: #79818d;
     font-weight: bold;
     margin: 55px 13px 0px 13px;
+    transition-duration: 0.2s;
+    transform: scale(1);
+}
+
+
+.title__container input:hover{
+    background-color: #79818d;
+    color: white;
+}
+
+.title__container input:active{
+    transform: scale(1.1);
+    
 }
 /*----------------------------------------------*/
 
@@ -100,6 +278,15 @@ nav{
     margin-top: 60px;
     margin-left: auto;
     margin-right: auto;
+    -webkit-animation: from_left 2s;
+    -o-animation: from_left 2s;
+    animation: from_left 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes from_left{
+    from{margin-left: -190px;}
+    to{margin-left: 860px;} /*ставил наугад так как auto тут не работает*/
 }
 
 .p1{
@@ -123,11 +310,23 @@ nav{
     color: #3f495a;
     margin-left: auto;
     margin-right: auto;
-    padding: 0px 11px 0px 30px;
+    padding: 0px 11px 0px 11px;
     border: 2px solid #3f495a;
     border-radius: 5px;
-    background: url(../img/icon.png) 7% 50%/ auto auto no-repeat ,none;
+    background: url(../img/icon.png) 7% -80%/ auto auto no-repeat ,none;
+    transform: scale(1);
+     transition-duration: 0.2s;
 }
+
+.about_me input:hover{
+    background: url(../img/icon.png) 7% 50%/ auto auto no-repeat ,none;
+    background-color: #79818d;
+    color: coral;
+    padding: 0px 11px 0px 30px;
+}
+
+.about_me input:active{
+    transform: scale(1.1);}
 /*----------------------------------------------*/
 
 
@@ -217,11 +416,13 @@ nav{
     font-weight: bold;
 }
 
-.example p{
+.example>p{
     color: #384354;
     font-size: 14px;
 }
-
+.example a:hover{
+    color: coral;
+}
 .name_projekt h3{
     color: #384354;
     font-size: 17px;
@@ -235,7 +436,7 @@ nav{
 
 .example input{
     height: 42px;
-    border: 1px solid #63b5ae;
+    border: 1px solid none;
     border-radius: 5%;
     background: #63b5ae;
     font-size: 14px;
@@ -243,7 +444,17 @@ nav{
     color: #fff;
     font-weight: bold;
     margin-top: 26px;
+    transform: scale(1);
+    transition-duration: 0.2s;
 }
+.example input:hover{
+    background-color: #79818d;
+    color: white;
+}
+
+.example input:active{
+    transform: scale(1.1);
+color: coral;}
 /*----------------------------------------------*/
 
 
@@ -306,7 +517,7 @@ nav{
     width: 100%;
     height: 50%;
     float: left;
-    background: url(../img/fon_statistic.jpg)  no-repeat;
+    background: url(../img/fon_statistic.jpg) center/cover fixed no-repeat;
 }
 
 .statistics h2{
@@ -407,11 +618,11 @@ nav{
 }
 
 .all_contacts{
-    
     margin-left: 719px;
-   
 }
-
+.all_contacts p:hover{
+    color: coral;
+}
 .contacts_icon{
     float: left;
     text-align: center;
@@ -425,13 +636,6 @@ nav{
     font-size: 10px;
     color: #ffffff; 
 }
-
-/*----------------------------------------------*/
-
-.send{
-    margin-top: 48px;
-}
-
 .contacts h4{
     text-align: center;
     color: #ffffff; 
@@ -440,18 +644,103 @@ nav{
     font-weight: bold;
     text-transform: uppercase;
 }
-
-.pole_vvoda input{
-  float: left;
-    height: 34px;
-    width: 352px;
-    
-    margin-left: 592px;
-    margin-right: 34px;
-    
+/*----------------------------------------------*/
+.send {
+    display: block;
+    margin-left: 594px;
+    margin-top: 20px;
     
 }
 
+.send input{
+    float: left;
+    height: 34px;
+    width: 352px;
+    margin-right: 20px;
+    padding-left: 14px;
+   margin-bottom: 20px;
+    background: rgba(220, 224, 230, 0.93);
+}
+
+.send pole_vvoda{
+    float: right;
+    background: rgba(220, 224, 230, 0.93);
+}
+
+
+.send textarea{
+    display: block;
+    margin-bottom: 20px;
+    width: 724px;;
+    resize: none;
+    padding-top: 10px;
+    padding-left: 15px;
+    background: rgba(220, 224, 230, 0.93);
+    font-size: 16px;
+    height: 94px;
+}
+
+.send input[type="submit"]{
+    display: block;
+    margin-left: 300px;
+    background: none;
+    color: white;
+    border: 2px solid white;
+    height: 46px;
+    width: 125px;
+    border-radius: 8px;
+    font-size: 20px;
+    padding: 0px 0px;
+    transition-duration: 0.2s;
+    transform: scale(1);
+}
+
+.send input[type="submit"]:hover{
+    background-color: #79818d;
+    color: white;
+}
+
+.send input[type="submit"]:active{
+    transform: scale(1.1);
+    color: coral;
+    border: 2px solid coral;
+}
+
+.social{
+    margin-top: 173px;
+    margin-left: 753px;
+    
+}
+.social a {
+    float: left;
+    margin-right: 50px;
+}
+
+.social img{
+    height: 30px;
+}
+
+
+@keyframes bounce {
+	0%, 20%, 60%, 100% {
+		transform: translateY(0);
+		transform: translateY(0);
+	}
+
+	40% {
+		transform: translateY(-10px);
+		transform: translateY(-10px);
+	}
+
+	80% {
+		transform: translateY(-5px);
+		transform: translateY(-5px);
+	}
+}
+.social img:hover{
+   color: coral;
+    animation: bounce 0.5s;
+}
 /*----------------------------------------------*/
 .karta{
     float: left;
@@ -473,6 +762,6 @@ footer{
 
 
 
-
+  
 
 
